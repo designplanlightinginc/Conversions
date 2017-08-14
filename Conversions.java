@@ -40,8 +40,9 @@ public class Conversions {
 
 		JComboBox inputList, outputList, roundingList;
 
-		String[] unitChoice = {"Length","Weight","Light"};
+		String[] unitChoice = {"Length","Weight","Light","Length Sq."};
 		String[] unitStringLength = {"mm","cm","m","in","ft","yd"};
+		String[] unitStringLength2 = {"m2","ft2"};
 		String[] unitStringWeight = {"g","kg","oz","lbs"};
 		String[] unitStringLight = {"lux","fc"};
 		String[] roundingString = {"Thousandths","Hundredths","Tenths","Whole"};
@@ -104,6 +105,16 @@ public class Conversions {
 						lengthPanel.setBorder(BorderFactory.createTitledBorder("Light Conversions"));
 						previousUnit = "Light";
 						break;
+					case "Length Sq.":
+						for(String unit : unitStringLength2) {
+							inputList.addItem(unit);
+							outputList.addItem(unit);
+						}
+						inputList.setSelectedIndex(0);
+						outputList.setSelectedIndex(1);
+						lengthPanel.setBorder(BorderFactory.createTitledBorder("Length Sq. Conversions"));
+						previousUnit = "Length Sq.";
+						break;
 					default:
 						break;
 				}
@@ -150,7 +161,7 @@ public class Conversions {
 			public void actionPerformed(ActionEvent e) {
 				double inputVal = Double.parseDouble(inputField.getText());
 
-				//Convert all inputs to base unit: meter/kg/lux.
+				//Convert all inputs to base unit: meter/kg/lux/m2.
 				String inputUnit = (String)inputList.getSelectedItem();
 				switch (inputUnit) {
 					case "mm":
@@ -185,6 +196,11 @@ public class Conversions {
 						break;
 					case "fc":
 						inputVal = inputVal*10.76391;
+						break;
+					case "m2":
+						break;
+					case "ft2":
+						inputVal = (inputVal/LENGTH_FACTOR)/LENGTH_FACTOR;
 						break;
 					default:
 						break;
@@ -240,6 +256,13 @@ public class Conversions {
 						break;
 					case "fc":
 						outputVal = outputVal/10.76391;
+						break;
+					case "m2":
+						unit = "m2";
+						break;
+					case "ft2":
+						outputVal = (outputVal*LENGTH_FACTOR)*LENGTH_FACTOR;
+						unit = "ft2";
 						break;
 					default:
 						break;
